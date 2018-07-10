@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'ItemController@index');
 
 Route::get('/items', 'ItemController@index');
 Route::match(['GET', 'POST'], '/create', 'ItemController@create');

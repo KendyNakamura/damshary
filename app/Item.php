@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-	protected $fillable = ['jan', 'name'];
+	protected $fillable = ['jan', 'name', 'category', 'content'];
 
 	public function photos()
 	{
-		return $this->hasMan('App\ItemPhoto');
+		return $this->hasMany('App\ItemPhoto');
 	}
 }

@@ -11,15 +11,23 @@
 @endif
 
 <!-- フォーム -->
-<form action="{{ url('upload') }}" method="post" enctype="multipart/form-data">
+<form action="{{ url('create') }}" method="post" enctype="multipart/form-data">
 	<label for="jan">Jan code: </label>
 	<input tuype="text" class="form-control" name="jan" value="">
+	<br>
+	<label for="name">カテゴリ：</label>
+	<input type="text" class="form-control" name="category" value="">
 	<br>
 	<label for="name">商品名：</label>
 	<input type="text" class="form-control" name="name" value="">
 	<br>
+	<label for="name">説明：</label>
+	<textarea class="form-control" name="content" value=""></textarea>
+	<br>
 	<label for="photo">画像ファイル</label>
-	<input type="file" class="form-control" name="files[][photo]" multiple>
+	<div class="row">
+	<input type="file" class="form-control col-3" name="files[][photo]" multiple>
+	</div>
 	<br>
 	<hr>
 	{{ csrf_field() }}
