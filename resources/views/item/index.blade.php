@@ -18,6 +18,7 @@
 			<td>{{ $item->category }}</td>
 			<td>{{ $item->name }}</td>
 			<td>{{ $item->content }}</td>
+			<td>{{ $item->item_photos->path }}</td>
 	</tr>
 	@endforeach
 	</table>
