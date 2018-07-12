@@ -19,7 +19,7 @@
 <body>
 	<nav class="navbar nabvar-extend-lg navbar-dark bg-dark">
 		<div class="container">
-			<a class="navbar-brand" href="{{ url('/') }}">
+			<a class="navbar-brand" href="{{ url('/items') }}">
 				Danshary
 			</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

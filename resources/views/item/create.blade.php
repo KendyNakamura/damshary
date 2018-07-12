@@ -11,28 +11,28 @@
 @endif
 
 <!-- フォーム -->
-<form action="{{ url('create') }}" method="post" enctype="multipart/form-data">
-	<label for="jan">Jan code: </label>
-	<input tuype="text" class="form-control" name="jan" value="">
-	<br>
-	<label for="name">カテゴリ：</label>
-	<input type="text" class="form-control" name="category" value="">
-	<br>
-	<label for="name">商品名：</label>
-	<input type="text" class="form-control" name="name" value="">
-	<br>
-	<label for="name">説明：</label>
-	<textarea class="form-control" name="content" value=""></textarea>
-	<br>
-	<label for="photo">画像ファイル</label>
-	<div class="row">
-	<input type="file" class="form-control col-3" name="files[][photo]" multiple>
+{!!Form::open(['action' => 'ItemController@store', 'files' => 'true']) !!}
+	<div class="form-group">
+	{!!Form::label('category', 'カテゴリ') !!}<br>
+	{!!Form::select('category', ['CD' => 'CD', 'バッグ' => 'bag', '服' => 'cloth', '本' => 'book' ], null, ['placeholder' => 'カテゴリ'], ['class' => 'form-control']);!!}<br>
 	</div>
-	<br>
-	<hr>
-	{{ csrf_field() }}
-	<button class="btn btn-sccess"> Upload </button>
-</form>
+	<div class="form-group">
+	{!!Form::label('name', '商品名') !!}<br>
+	{!!Form::text('name', null, ['class' => 'form-control']); !!}
+	</div>
+	<div class="form-group">
+	{!!Form::label('content', '説明') !!}<br>
+	{!!Form::text('content', null, ['class' => 'form-control']); !!}
+	</div>
+	<div class="form-group">
+	{!!Form::label('fileName', '画像') !!}<br>
+	{!!Form::file('fileName'); !!}<br>
+	</div>
+	{!!Form::token();!!}
+	<div class="form-group">
+	{!!Form::submit('upload', ['class' => 'btn btn-seccess']); !!}
+	</div>
+{!!Form::close() !!}
 
 @endsection
 

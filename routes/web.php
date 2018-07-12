@@ -11,7 +11,12 @@
 |
 */
 
-Route::get('/', 'ItemController@index');
-
+/*
 Route::get('/items', 'ItemController@index');
-Route::match(['GET', 'POST'], '/create', 'ItemController@create');
+Route::get('/items/show', 'ItemController@show');
+Route::get('/items/create', 'ItemController@create');
+Route::post('/items/store', 'ItemController@store');
+ */
+
+Route::resource('items', 'ItemController');
+Route::get('items', 'ItemController@getSearch');
