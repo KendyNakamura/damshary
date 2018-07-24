@@ -11,32 +11,38 @@
 @endif
 
 <!-- フォーム -->
-{!!Form::open(['action' => 'ItemController@store', 'files' => 'true']) !!}
+{{ Form::open(array('action' => 'ItemController@store' , 'method' => 'post', 'files'=> true)) }}
+<!-- <form action="{{action('ItemController@store')}}" method="post" enctype="multipart/form-data"> -->
 	<div class="form-group">
-	{!!Form::label('category', 'カテゴリ') !!}<br>
-	{!!Form::select('category', ['CD' => 'CD', 'バッグ' => 'bag', '服' => 'cloth', '本' => 'book' ], null, ['placeholder' => 'カテゴリ'], ['class' => 'form-control']);!!}<br>
+		<h2>カテゴリ</h2>
+		<select name="category" class="form-control" required>
+			<option value="">選択してください</option>
+			<option value="CD">CD</option>
+			<option value="bag">バッグ</option>
+			<option value="cloth">服</option>
+			<option value="book">本</option>
+		</select>
 	</div>
 	<div class="form-group">
-	{!!Form::label('name', '商品名') !!}<br>
-	{!!Form::text('name', null, ['class' => 'form-control']); !!}
+		<h2>商品名</h2>
+		<input type="text" name="name" class="form-control" required>
 	</div>
 	<div class="form-group">
-	{!!Form::label('content', '説明') !!}<br>
-	{!!Form::text('content', null, ['class' => 'form-control']); !!}
+		<h2>説明</h2>
+		<input type="text" name="content" class="form-control">
 	</div>
 	<div class="form-group">
-	{!!Form::label('fileName', '画像') !!}<br>
-	{!!Form::file('fileName'); !!}<br>
+		<h2>画像</h2>
+		<input type="file" name="fileName" required>
 	</div>
-	{!!Form::token();!!}
+	{{ csrf_field() }}
 	<div class="form-group">
-	{!!Form::submit('upload', ['class' => 'btn btn-seccess']); !!}
+		<input type="submit" value="upload" class="btn btn-success">
 	</div>
-{!!Form::close() !!}
-
+<!-- </form> -->
+{{ Form::close() }}
 @endsection
 
 @section('footer')
 	KenjiNakamura
 @endsection
-

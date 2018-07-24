@@ -4,25 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Item;
 use App\Http\Requests\ItemRequest;
-//use Illuminate\Http\Request;
-use Request;
+use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use \Cart;
+use Redis;
 
 class ItemController extends Controller
 {
 	public function index()
 	{
 		$items = Item::all();
+		$cart_items = Redis::get('id');
 		return view('item.index', compact('items'));
 	}
 
-	public function getSearch()
+	public function getSearch(Request $request)
 	{
-		$query = Request::input('catesort');
+		$query = $request->catesort;
 
 		if ($query) {
 			$items = Item::where('category', 'LIKE', "%$query%")->get();
-		}else{
+		} else {
 			$items = Item::all();
 		}
 
@@ -40,29 +42,61 @@ class ItemController extends Controller
 		return view('item.create');
 	}
 
-	 public function store(Request $request)
-	 {
-		 $input = $request->all();
+	public function store(Request $request)
+	{
+		// itemモデルに移す
+	  	$input = $request->all();
 
-		  // getClientOriginalName()：アップロードしたファイルのオリジナル名を取得します
-  		 $fileName = $input['fileName']->getClientOriginalName();
+	 	// getClientOriginalName()：アップロードしたファイルのオリジナル名を取得
+		$fileName = $request->fileName->getClientOriginalName();
 
- 		 // getRealPath()：アップロードしたファイルのパスを取得します。
- 		 $image = Image::make($input['fileName']->getRealPath());
+		// getRealPath()：アップロードしたファイルのパスを取得します。
+		$image = Image::make($input['fileName']->getRealPath());
 
-		 // 画像を保存する
-		 $image->save(public_path() . '/images/' .  '/' . $fileName);
+		// 画像を保存する
+	  	$image->save(public_path() . '/images/' .  '/' . $fileName);
 
-		 $path = '/images/'.$fileName;
+	  	$path = '/images/'.$fileName;
 
-		 $item = new Item;
-         $item->category = $request->category;
-         $item->name = $request->name;
-         $item->content = $request->content;
-		 $item->photo1 = $path;
+	  	$item = new Item;
+	    $item->category = $request->category;
+	    $item->name = $request->name;
+	    $item->content = $request->content;
+	  	$item->photo1 = $path;
 
-		 $item->save();
+	  	$item->save();
 
-		 return redirect('/items');
-	 }
+	  	return redirect('/items');
+	}
+
+	public function addItem($id)
+	{
+		$itemCart = Item::find($id);
+		Redis::set('id', $id);
+		Cart::add($itemCart->id, $itemCart->name, 1, 0);
+		return redirect('/items');
+	}
+
+	public function removeItem(Request $request)
+	{
+		$query = $request->removeItem;
+		Cart::remove($query);
+		return redirect('/items');
+	}
+
+	public function confirm()
+	{
+		return view('item.confirm');
+	}
+
+	public function purchaseItem(Request $request)
+	{
+		foreach(Cart::content() as $item)
+			{
+				$purchase = Item::find($item->id);
+				$purchase->purchase = 1;
+				$purchase->save();
+			}
+		return view('item.index');
+	}
 }
