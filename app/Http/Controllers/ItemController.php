@@ -14,8 +14,9 @@ class ItemController extends Controller
 	public function index()
 	{
 		$items = Item::all();
-		$cart_items = Redis::get('id');
-		return view('item.index', compact('items'));
+		return view('item.index', [
+			'items' => $items,
+		]);
 	}
 
 	public function getSearch(Request $request)
@@ -28,7 +29,9 @@ class ItemController extends Controller
 			$items = Item::all();
 		}
 
-		return view('item.index', compact('items'));
+		return view('item.index', [
+			'items' => $items
+		]);
 	}
 
 	public function show($id)
@@ -89,13 +92,13 @@ class ItemController extends Controller
 		return view('item.confirm');
 	}
 
-	public function purchaseItem(Request $request)
+	public function purchaseItem()
 	{
+		// dd(Cart::content());
 		foreach(Cart::content() as $item)
 			{
-				$purchase = Item::find($item->id);
-				$purchase->purchase = 1;
-				$purchase->save();
+
+				dd($item);
 			}
 		return view('item.index');
 	}
