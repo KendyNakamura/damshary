@@ -1,15 +1,14 @@
 @extends('layouts.all')
 
 @section('content')
-    <table>
-        <tbody>
-            @include('template.purchase_items')
-       	</tbody>
-    </table>
-    <form action="{{ url('items/purchase') }}" method="post">
+    <form action="{{ route('item.purchase') }}" method="post">
+        <table>
+            <tbody>
+                @include('template.purchase_items')
+           	</tbody>
+        </table>
         <input type="submit" value="購入完了" class="btn btn-default">
     </form>
-    <a href="purchase">購入完了</a>
 @endsection
 
 @section('footer')

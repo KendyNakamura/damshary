@@ -18,4 +18,6 @@
         </td>
     </tr>
 <?php endforeach;?>
+
+
 合計個数：{{ Cart::content()->count() }}

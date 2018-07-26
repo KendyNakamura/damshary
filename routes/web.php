@@ -6,4 +6,4 @@ Route::resource('items', 'ItemController');
 Route::get('items', 'ItemController@getSearch');
 Route::get('items/add/{id}', 'ItemController@addItem');
 Route::post('items/remove', 'ItemController@removeItem');
-Route::post('items/purchase', 'ItemController@purchaseItem');
+Route::post('items/purchase', 'ItemController@purchaseItem')->name('item.purchase');
