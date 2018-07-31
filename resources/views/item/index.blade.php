@@ -1,7 +1,7 @@
 @extends('layouts.all')
 
 @section('content')
-	<form class="form-inline" action="{{url('/items')}}">
+	<form class="form-inline" action="{{ route('item.index') }}" method="get">
 		<div class="form-group">
 			<select name="catesort">
 				<option value="">選択してください</option>

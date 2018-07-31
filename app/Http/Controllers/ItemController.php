@@ -7,30 +7,14 @@ use App\Http\Requests\ItemRequest;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use \Cart;
-use Redis;
+// use Redis;
 
 class ItemController extends Controller
 {
-	public function index()
+	public function index(Request $request)
 	{
-		$items = Item::all();
 		return view('item.index', [
-			'items' => $items,
-		]);
-	}
-
-	public function getSearch(Request $request)
-	{
-		$query = $request->catesort;
-
-		if ($query) {
-			$items = Item::where('category', 'LIKE', "%$query%")->get();
-		} else {
-			$items = Item::all();
-		}
-
-		return view('item.index', [
-			'items' => $items
+			'items' => Item::search($request),
 		]);
 	}
 
@@ -75,7 +59,6 @@ class ItemController extends Controller
 	public function addItem($id)
 	{
 		$itemCart = Item::find($id);
-		Redis::set('id', $id);
 		Cart::add($itemCart->id, $itemCart->name, 1, 0);
 		return redirect('/items');
 	}
@@ -92,14 +75,21 @@ class ItemController extends Controller
 		return view('item.confirm');
 	}
 
+	public function complete()
+	{
+		$items = Item::all();
+		return view('item.complete');
+	}
+
 	public function purchaseItem()
 	{
-		// dd(Cart::content());
-		foreach(Cart::content() as $item)
-			{
-
-				dd($item);
-			}
-		return view('item.index');
+		// $items = Item::all();
+		// foreach(Cart::content() as $item)
+		// 	{
+		// 		$pur = Item::find($item->id);
+		// 		$pur->purchase = 1;
+		// 		$pur->save();
+		// 	}
+		return redirect('items/complete');
 	}
 }

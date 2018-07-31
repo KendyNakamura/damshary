@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Item extends Model
 {
@@ -11,5 +12,17 @@ class Item extends Model
 	public function item_photos()
 	{
 		return $this->hasMany('App\ItemPhoto');
+	}
+
+	public static function search(Request $request)
+	{
+		$query = Item::query();
+
+		if($query) {
+			echo 'hello';
+			$items = Item::where('category', 'LIKE', "%{$request->catesort}%");
+		}
+
+		return $items->orderBy('created_at', 'desc');
 	}
 }
