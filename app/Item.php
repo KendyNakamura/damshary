@@ -19,7 +19,6 @@ class Item extends Model
 		$query = Item::query();
 
 		if($query) {
-			echo 'hello';
 			$items = Item::where('category', 'LIKE', "%{$request->catesort}%");
 		}
 
